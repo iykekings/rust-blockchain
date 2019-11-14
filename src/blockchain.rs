@@ -27,4 +27,11 @@ impl BlockChain {
         &self.pending_transactions.push(transaction);
     }
 
+    fn last_block(&self) -> Option<&Block> {
+        match &self.chain.len() {
+            0 => None,
+            n => Some(&self.chain[n - 1])
+        }
+    }
+
 }
