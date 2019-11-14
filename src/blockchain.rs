@@ -8,3 +8,19 @@ pub struct BlockChain {
     chain: Vec<Block> // will be Vec<Block>
 }
 
+impl BlockChain {
+    pub fn create_genesis() -> BlockChain {
+        let block = Block {
+            index: 0,
+            previous_hash: "123abc".to_string(),
+            proof: 100,
+            transactions: vec![]
+        };
+
+        BlockChain {
+            pending_transactions: vec![],
+            chain: vec![block]
+        }
+    }
+
+}
