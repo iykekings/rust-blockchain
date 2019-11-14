@@ -79,3 +79,11 @@ impl BlockChain {
     }
 }
 
+#[derive(Debug)]
+struct Block {
+    index: u32,
+    previous_hash: String,
+    proof: u32,
+    transactions: Vec<Transaction>,
+}
+
