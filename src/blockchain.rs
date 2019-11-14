@@ -87,3 +87,14 @@ struct Block {
     transactions: Vec<Transaction>,
 }
 
+impl Block {
+    fn create(index: &usize, previous_hash: String, proof: u32, transactions: Vec<Transaction>) -> Block {
+        Block {
+            index: *index as u32,
+            previous_hash,
+            proof, 
+            transactions
+        }
+    }
+
+}
