@@ -34,4 +34,30 @@ impl BlockChain {
         }
     }
 
+    pub fn add_block(&mut self, proof: u32) {
+        let transactions: Vec<Transaction> = self.pending_transactions
+            .iter()
+            .map(|Transaction { sender, receiver, amount }| {
+                Transaction::create(
+                    sender.clone(), 
+                    receiver.clone(), 
+                    amount.clone()
+                )
+            })
+            .collect();
+
+        let hash_str = self.hash(proof);
+
+        let confirmed_proof = confirm_proof(&hash_str);
+        
+        if confirmed_proof == true {
+            let block = Block::create(&self.chain.len(), hash_str, proof, transactions);
+            &self.chain.push(block);
+            self.pending_transactions.drain(..);
+        } else {
+            println!("Proof is wrong");
+        }
+        
+    }
+
 }
