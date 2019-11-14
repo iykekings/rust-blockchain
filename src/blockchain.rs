@@ -60,4 +60,22 @@ impl BlockChain {
         
     }
 
+    pub fn hash(&self, proof: u32) -> String {
+        let mut input = Vec::new();
+
+        let last_block_str = &self.last_block().unwrap().block_string();
+    
+        for c in last_block_str.bytes() {
+            input.push(c);
+        }
+    
+        for c in proof.to_string().bytes() {
+            input.push(c);
+        }
+    
+        let result = sha2::Sha256::digest(&input);
+        let result = format!("{:x}", result);
+        result
+    }
 }
+
