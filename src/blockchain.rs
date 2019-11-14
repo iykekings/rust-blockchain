@@ -97,4 +97,17 @@ impl Block {
         }
     }
 
+    fn block_string(&self) -> String {
+        let mut transactions = String::new();
+        for t in  &self.transactions {
+            transactions.push_str(&t.sender);
+            transactions.push_str(&t.receiver);
+            transactions.push_str(&t.amount.to_string()); 
+        }
+
+        transactions.push_str(&self.previous_hash);
+        
+        transactions
+    }
 }
+
