@@ -10,6 +10,6 @@ fn main() {
     b.add_transaction(new_transaction);
     println!("{:#?}", b);
     let proof = generate_proof(&b);
-    b.add_block(235);
+    b.add_block(proof);
     println!("{:#?}", b);
 }
