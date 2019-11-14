@@ -111,3 +111,10 @@ impl Block {
     }
 }
 
+#[derive(Debug)]
+pub struct Transaction {
+    sender: String,
+    receiver: String,
+    amount: u32,
+}
+
