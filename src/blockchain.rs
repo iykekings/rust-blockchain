@@ -23,4 +23,8 @@ impl BlockChain {
         }
     }
 
+    pub fn add_transaction(&mut self, transaction: Transaction) {
+        &self.pending_transactions.push(transaction);
+    }
+
 }
