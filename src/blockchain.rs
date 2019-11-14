@@ -118,3 +118,12 @@ pub struct Transaction {
     amount: u32,
 }
 
+impl Transaction {
+    pub fn create(sender: String, receiver:  String, amount: u32) -> Transaction {
+        Transaction {
+            sender, 
+            receiver,
+            amount
+        }
+    }
+}
