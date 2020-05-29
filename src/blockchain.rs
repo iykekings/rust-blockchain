@@ -35,25 +35,13 @@ impl BlockChain {
     }
 
     pub fn add_block(&mut self, proof: u32) {
-        let transactions: Vec<Transaction> = self.pending_transactions
-            .iter()
-            .map(|Transaction { sender, receiver, amount }| {
-                Transaction::create(
-                    sender.clone(), 
-                    receiver.clone(), 
-                    amount.clone()
-                )
-            })
-            .collect();
-
         let hash_str = self.hash(proof);
-
         let confirmed_proof = confirm_proof(&hash_str);
         
-        if confirmed_proof == true {
+        if confirmed_proof {
+           let transactions: Vec<_> =  self.pending_transactions.drain(..).collect();
             let block = Block::create(&self.chain.len(), hash_str, proof, transactions);
             &self.chain.push(block);
-            self.pending_transactions.drain(..);
         } else {
             println!("Proof is wrong");
         }
@@ -61,21 +49,10 @@ impl BlockChain {
     }
 
     pub fn hash(&self, proof: u32) -> String {
-        let mut input = Vec::new();
-
         let last_block_str = &self.last_block().unwrap().block_string();
     
-        for c in last_block_str.bytes() {
-            input.push(c);
-        }
-    
-        for c in proof.to_string().bytes() {
-            input.push(c);
-        }
-    
-        let result = sha2::Sha256::digest(&input);
-        let result = format!("{:x}", result);
-        result
+        let result = sha2::Sha256::digest(format!("{}{}", last_block_str, proof).as_bytes());
+        format!("{:x}", result)
     }
 }
 
@@ -119,10 +96,10 @@ pub struct Transaction {
 }
 
 impl Transaction {
-    pub fn create(sender: String, receiver:  String, amount: u32) -> Transaction {
+    pub fn create<T: Into<String>>(sender: T, receiver:  T, amount: u32) -> Transaction {
         Transaction {
-            sender, 
-            receiver,
+            sender: sender.into(), 
+            receiver: receiver.into(),
             amount
         }
     }
