@@ -6,6 +6,7 @@ pub fn confirm_proof(hash: &String) -> bool {
 
 pub fn generate_proof(chain: &BlockChain) -> u32 {
     (0..)
+        .step_by(100)
         .skip_while(|&x| !confirm_proof(&chain.hash(x)))
         .next()
         .unwrap() as u32
